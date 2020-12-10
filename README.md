@@ -29,7 +29,6 @@ jobs:
         args: --acl public-read
       env:
         FILE: ./lambda.zip
-        AWS_REGION: ''
         S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         S3_KEY: path/to/lambda.zip
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
