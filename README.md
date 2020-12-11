@@ -11,6 +11,8 @@ Check out the example below to get started.
 Please note that each env var is required.
 It is recommended to put your AWS credentials in as repository secrets, as well as your bucket name.
 
+### Single file
+
 ```yaml
 # inside .github/workflows/your-action.yml
 name: Add File to Bucket
@@ -31,6 +33,33 @@ jobs:
         FILE: ./lambda.zip
         S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         S3_KEY: path/to/lambda.zip
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+```
+
+### Folder contents
+
+```yaml
+# inside .github/workflows/your-action.yml
+name: Add Files to Bucket
+on: push
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Upload file to bucket
+      uses: dijkstraj/s3-upload-github-action@master
+      with:
+        args: --acl public-read
+      env:
+        FOLDER: ./
+        INCLUDE: *.zip
+        S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        S3_KEY: target/path/
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 ```
